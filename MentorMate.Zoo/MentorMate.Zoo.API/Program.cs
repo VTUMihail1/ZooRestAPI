@@ -10,7 +10,6 @@ using MentorMate.Zoo.Data;
 using MentorMate.Zoo.Data.Constants;
 using MentorMate.Zoo.Data.Repositories;
 using MentorMate.Zoo.Data.Seed;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
