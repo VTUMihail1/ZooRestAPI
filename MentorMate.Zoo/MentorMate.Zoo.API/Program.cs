@@ -10,6 +10,7 @@ using MentorMate.Zoo.Data;
 using MentorMate.Zoo.Data.Constants;
 using MentorMate.Zoo.Data.Repositories;
 using MentorMate.Zoo.Data.Seed;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
@@ -23,17 +24,18 @@ builder.Services.AddControllers()
     }); ;
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options
-.UseSqlServer(builder.Configuration
-.GetConnectionString(DatabaseConfiguration.ConnectionStringName)));
+                .UseSqlServer(builder.Configuration
+                .GetConnectionString(DatabaseConfiguration.ConnectionStringName))
+);
 
 builder.Services.AddScoped<IFoodFactory, FoodFactory>();
 builder.Services.AddScoped<IFoodStrategy, FoodStrategy>();
 builder.Services.AddScoped<IResultFactory, ResultFactory>();
-builder.Services.AddScoped<IValidator<AnimalValidateDTO>, AnimalDTOValidator>();
 builder.Services.AddScoped<IDatabaseInitializer, DatabaseInitializer>();
 builder.Services.AddScoped<IAnimalRepository, AnimalRepository>();
 builder.Services.AddScoped<IAnimalService, AnimalService>();
 builder.Services.AddAutoMapper(typeof(AnimalProfile));
+builder.Services.AddValidatorsFromAssemblyContaining<AnimalDTOValidator>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
