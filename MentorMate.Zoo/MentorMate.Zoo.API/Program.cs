@@ -1,6 +1,5 @@
 using FluentValidation;
 using MentorMate.Zoo.API.Extensions;
-using MentorMate.Zoo.Business.DTOs.AnimalDTOs;
 using MentorMate.Zoo.Business.Factories;
 using MentorMate.Zoo.Business.Helpers.Mapper;
 using MentorMate.Zoo.Business.Services;

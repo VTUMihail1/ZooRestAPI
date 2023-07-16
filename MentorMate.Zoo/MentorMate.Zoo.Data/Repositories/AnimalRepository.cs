@@ -16,22 +16,22 @@ namespace MentorMate.Zoo.Data.Repositories
 
         public async Task<IEnumerable<IEnumerable<Animal>>> GetAllGroupedAndSortedAnimalsAsync()
         {
-            var animals = await _applicationDbContext.Animals
+            // In other cases the group by would be unnesecary,
+            // but in this case I can use the group by to have a empty array to seperate the carnivores and herbivores if there isnt a omnivore
+            var animalsDictionary = await _applicationDbContext.Animals
                 .AsNoTracking()
-                .ToListAsync();
-
-            var groupedAnimals = animals
                 .GroupBy(a => a.Type)
                 .OrderBy(g => g.Key)
-                .ToDictionary(
+                .ToDictionaryAsync(
                               g => g.Key,
                               g => g.OrderBy(item => item.Class));
-
+                
+            
             var groupedAndSortedAnimals = Enum
                 .GetValues(typeof(Type))
                 .Cast<Type>()
                 .Select(
-                        e => groupedAnimals
+                        e => animalsDictionary
                         .TryGetValue(e, out var animals)
                                     ? animals
                                       .OrderBy(a => a.Class)
