@@ -27,7 +27,8 @@ namespace MentorMate.Zoo.Data.Repositories
                               g => g.Key,
                               g => g.OrderBy(item => item.Class));
 
-            var groupedAndSorted = Enum.GetValues(typeof(Type))
+            var groupedAndSortedAnimals = Enum
+                .GetValues(typeof(Type))
                 .Cast<Type>()
                 .Select(
                         e => groupedAnimals
@@ -37,7 +38,7 @@ namespace MentorMate.Zoo.Data.Repositories
                                       .ThenBy(a => a.Weight)
                                     : Enumerable.Empty<Animal>());
 
-            return groupedAndSorted;
+            return groupedAndSortedAnimals;
 
         }
 
@@ -56,7 +57,7 @@ namespace MentorMate.Zoo.Data.Repositories
                 .AsNoTracking()
                 .ToListAsync();
 
-            var typeStatistics = animals
+            var animalStatistics = animals
                 .Where(a => a.Type == type)
                 .GroupBy(a => a.Type)
                 .Select(a => new AnimalStatistics
@@ -66,7 +67,7 @@ namespace MentorMate.Zoo.Data.Repositories
                 }).FirstOrDefault();
 
 
-            return typeStatistics;
+            return animalStatistics;
         }
 
         public async Task<Animal> GetByIdAsync(int id)
