@@ -1,8 +1,8 @@
 ﻿using MentorMate.Zoo.Business.Models.Food;
 using MentorMate.Zoo.Domain.Models;
 using MentorMate.Zoo.Business.DTOs.AnimalDTOs;
-using MentorMate.Zoo.Business.Factories;
 using Type = MentorMate.Zoo.Domain.Enums.Type;
+using MentorMate.Zoo.Business.Factories;
 
 namespace MentorMate.Zoo.Business.Strategy
 {
@@ -15,7 +15,7 @@ namespace MentorMate.Zoo.Business.Strategy
             _foodFactory = foodFactory;
         }
 
-        public IFood Strategy(AnimalStatistics animalStatistics, AnimalViewDTO animalViewDTO)
+        public IFood CalculateAnimalFood(AnimalStatistics animalStatistics, AnimalViewDTO animalViewDTO)
         {
             var maxWeight = animalStatistics.MaxWeight;
             var averageWeight = animalStatistics.MaxWeight;
@@ -23,7 +23,7 @@ namespace MentorMate.Zoo.Business.Strategy
 
             if (animalViewDTO.Type == Type.Herbivore)
             {
-                return _foodFactory.GetHerbivoreFood(averageWeight, animalWeight);
+                return _foodFactory.GetHerbivoreFood(maxWeight, averageWeight);
             }
             else if (animalViewDTO.Type == Type.Carnivore)
             {

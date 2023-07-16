@@ -6,13 +6,13 @@ namespace MentorMate.Zoo.Data.Repositories
 {
     public interface IAnimalRepository
     {
-        Task<AnimalStatistics> GetTypeStatisticsAsync(Type type);
-        Task<IEnumerable<IEnumerable<Animal>>> GetAllGroupedAndSortedAsync();
-        Task AddAsync(Animal animal);
-        Task<IEnumerable<Animal>> GetAllAsync();
         Task<Animal> GetByIdAsync(int id);
         Task<Animal> GetByNameAsync(string name);
-        Task DeleteAsync(Animal animal);
+        Task<AnimalStatistics> GetAnimalTypeStatisticsAsync(Type type);
+        Task<IEnumerable<Animal>> GetAllAsync();
+        Task<IEnumerable<IEnumerable<Animal>>> GetAllGroupedAndSortedAnimalsAsync();
+        Task AddAsync(Animal animal);
         Task UpdateAsync(Animal animal);
+        Task DeleteAsync(Animal animal);
     }
 }

@@ -15,10 +15,10 @@ namespace MentorMate.Zoo.Business.Validators
             RuleFor(a => a.Name)
                 .NotEmpty()
                 .NotNull()
-                .MaximumLength(DatabaseConfigurationConstants.AnimalNameMaxLength);
+                .MaximumLength(DatabaseConfiguration.AnimalNameMaxLength);
 
             RuleFor(a => a.Species)
-                .MaximumLength(DatabaseConfigurationConstants.AnimalSpeciesMaxLength)
+                .MaximumLength(DatabaseConfiguration.AnimalSpeciesMaxLength)
                 .When(a => !a.ExistsInDatabase);
 
             RuleFor(a => a.Type)

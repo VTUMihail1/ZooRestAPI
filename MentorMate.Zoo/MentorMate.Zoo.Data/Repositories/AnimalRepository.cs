@@ -14,7 +14,7 @@ namespace MentorMate.Zoo.Data.Repositories
             _applicationDbContext = applicationDbContext;
         }
 
-        public async Task<IEnumerable<IEnumerable<Animal>>> GetAllGroupedAndSortedAsync()
+        public async Task<IEnumerable<IEnumerable<Animal>>> GetAllGroupedAndSortedAnimalsAsync()
         {
             var animals = await _applicationDbContext.Animals
                 .AsNoTracking()
@@ -51,23 +51,24 @@ namespace MentorMate.Zoo.Data.Repositories
             return animals;
         }
 
-        public async Task<AnimalStatistics> GetTypeStatisticsAsync(Type type)
+        public async Task<AnimalStatistics> GetAnimalTypeStatisticsAsync(Type type)
         {
             var animals = await _applicationDbContext.Animals
                 .AsNoTracking()
                 .ToListAsync();
 
-            var animalStatistics = animals
+            var animalTypeStatistics = animals
                 .Where(a => a.Type == type)
                 .GroupBy(a => a.Type)
                 .Select(a => new AnimalStatistics
                 {
                     MaxWeight = a.Max(p => p.Weight),
                     AverageWeight = a.Average(p => p.Weight)
-                }).FirstOrDefault();
+                })
+                .DefaultIfEmpty(new AnimalStatistics())
+                .First();
 
-
-            return animalStatistics;
+            return animalTypeStatistics;
         }
 
         public async Task<Animal> GetByIdAsync(int id)

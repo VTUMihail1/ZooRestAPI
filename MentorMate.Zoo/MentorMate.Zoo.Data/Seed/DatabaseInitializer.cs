@@ -34,7 +34,9 @@ namespace MentorMate.Zoo.Data.Seed
 
         private async Task SeedAnimalsAsync()
         {
-            if (await _applicationDbContext.Animals.AnyAsync())
+            var databaseIsNotEmpty = await _applicationDbContext.Animals.AnyAsync();
+
+            if (databaseIsNotEmpty)
             {
                 return;
             }

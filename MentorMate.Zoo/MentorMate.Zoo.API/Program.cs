@@ -24,7 +24,7 @@ builder.Services.AddControllers()
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options
 .UseSqlServer(builder.Configuration
-.GetConnectionString(DatabaseConfigurationConstants.ConnectionStringName)));
+.GetConnectionString(DatabaseConfiguration.ConnectionStringName)));
 
 builder.Services.AddScoped<IFoodFactory, FoodFactory>();
 builder.Services.AddScoped<IFoodStrategy, FoodStrategy>();

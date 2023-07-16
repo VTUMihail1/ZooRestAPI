@@ -29,24 +29,25 @@ namespace MentorMate.Zoo.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Class")
-                        .HasColumnType("int");
+                    b.Property<short>("Class")
+                        .HasColumnType("smallint");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("varchar");
 
                     b.Property<string>("Species")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("varchar");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
+                    b.Property<short>("Type")
+                        .HasColumnType("smallint");
 
                     b.Property<decimal>("Weight")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal");
 
                     b.HasKey("Id");
 

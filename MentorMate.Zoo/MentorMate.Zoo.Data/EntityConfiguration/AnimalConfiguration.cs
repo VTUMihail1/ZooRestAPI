@@ -15,25 +15,30 @@ namespace MentorMate.Zoo.Data.EntityConfiguration
             builder
                 .Property(a => a.Name)
                 .IsRequired()
-                .HasMaxLength(DatabaseConfigurationConstants.AnimalNameMaxLength)
-                .ValueGeneratedNever();
+                .HasColumnType(DatabaseConfiguration.StringDatabaseType)
+                .HasMaxLength(DatabaseConfiguration.AnimalNameMaxLength);
 
             builder
                 .Property(a => a.Species)
                 .IsRequired()
-                .HasMaxLength(DatabaseConfigurationConstants.AnimalSpeciesMaxLength);
+                .HasColumnType(DatabaseConfiguration.StringDatabaseType)
+                .HasMaxLength(DatabaseConfiguration.AnimalSpeciesMaxLength);
 
             builder
                 .Property(a => a.Type)
-                .IsRequired();
+                .IsRequired()
+                .HasColumnType(DatabaseConfiguration.Int16DatabaseType);
 
             builder
                 .Property(a => a.Class)
-                .IsRequired();
+                .IsRequired()
+                .HasColumnType(DatabaseConfiguration.Int16DatabaseType);
 
             builder
                 .Property(a => a.Weight)
-                .IsRequired();
+                .IsRequired()
+                .HasColumnType(DatabaseConfiguration.DecimalDatabaseType)
+                .HasPrecision(DatabaseConfiguration.DecimalPrecision, DatabaseConfiguration.DecimalScale);
         }
     }
 }

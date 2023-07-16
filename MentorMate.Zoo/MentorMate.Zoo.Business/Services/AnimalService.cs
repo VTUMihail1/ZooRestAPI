@@ -23,14 +23,14 @@ namespace MentorMate.Zoo.Business.Services
             IMapper mapper,
             IAnimalRepository animalRepository,
             IResultFactory resultFactory,
-            IValidator<AnimalValidateDTO> validator,
-            IFoodStrategy foodStrategy)
+            IFoodStrategy foodStrategy,
+            IValidator<AnimalValidateDTO> validator)
         {
             _mapper = mapper;
             _animalRepository = animalRepository;
             _resultFactory = resultFactory;
-            _validator = validator;
             _foodStrategy = foodStrategy;
+            _validator = validator;
         }
 
         public async Task<IResult<AnimalViewDTO>> GetByIdAsync(int id)
@@ -41,15 +41,18 @@ namespace MentorMate.Zoo.Business.Services
 
             if (animalDoesNotExist)
             {
-                var notFoundResult = _resultFactory.GetNotFoundResult<AnimalViewDTO>(AnimalErrorMessages.AnimalNotFound);
+                var notFoundResult = _resultFactory.GetNotFoundResult<AnimalViewDTO>(ErrorMessages.AnimalNotFound);
 
                 return notFoundResult;
             }
 
             var animalViewDTO = _mapper.Map<AnimalViewDTO>(animal);
 
-            var herbivoreStatistics = await _animalRepository.GetTypeStatisticsAsync(Type.Herbivore) ?? new AnimalStatistics();
-            animalViewDTO.Food = _foodStrategy.Strategy(herbivoreStatistics, animalViewDTO);
+            var desiredType = Type.Herbivore;
+            var herbivoreStatistics = await _animalRepository.GetAnimalTypeStatisticsAsync(desiredType);
+            var animalFood = _foodStrategy.CalculateAnimalFood(herbivoreStatistics, animalViewDTO);
+
+            animalViewDTO.Food = animalFood;
 
             var okResult = _resultFactory.GetOkResult(animalViewDTO);
 
@@ -58,7 +61,7 @@ namespace MentorMate.Zoo.Business.Services
 
         public async Task<IEnumerable<IEnumerable<AnimalResultDTO>>> GetAllAsync()
         {
-            var animals = await _animalRepository.GetAllGroupedAndSortedAsync();
+            var animals = await _animalRepository.GetAllGroupedAndSortedAnimalsAsync();
             var animalResultDTOs = _mapper.Map<IEnumerable<IEnumerable<AnimalResultDTO>>>(animals);
 
             return animalResultDTOs;
@@ -91,7 +94,7 @@ namespace MentorMate.Zoo.Business.Services
             }
             catch
             {
-                var badRequestResult = _resultFactory.GetBadRequestResult<AnimalResultDTO>(AnimalErrorMessages.AnimalCollisionInDatabase);
+                var badRequestResult = _resultFactory.GetBadRequestResult<AnimalResultDTO>(ErrorMessages.AnimalNameCollisionInDatabase);
 
                 return badRequestResult;
             }
@@ -126,7 +129,7 @@ namespace MentorMate.Zoo.Business.Services
 
             if (animalWithThatNameAlreadyExists)
             {
-                var badRequestResult = _resultFactory.GetBadRequestResult<AnimalResultDTO>(AnimalErrorMessages.AnimalCollisionInDatabase);
+                var badRequestResult = _resultFactory.GetBadRequestResult<AnimalResultDTO>(ErrorMessages.AnimalNameCollisionInDatabase);
 
                 return badRequestResult;
             }
@@ -140,7 +143,7 @@ namespace MentorMate.Zoo.Business.Services
             }
             catch
             {
-                var notFoundResult = _resultFactory.GetNotFoundResult<AnimalResultDTO>(AnimalErrorMessages.AnimalNotFound);
+                var notFoundResult = _resultFactory.GetNotFoundResult<AnimalResultDTO>(ErrorMessages.AnimalNotFound);
 
                 return notFoundResult;
             }
@@ -161,7 +164,7 @@ namespace MentorMate.Zoo.Business.Services
             }
             catch
             {
-                var notFoundResult = _resultFactory.GetNotFoundResult<AnimalResultDTO>(AnimalErrorMessages.AnimalNotFound);
+                var notFoundResult = _resultFactory.GetNotFoundResult<AnimalResultDTO>(ErrorMessages.AnimalNotFound);
 
                 return notFoundResult;
             }

@@ -6,6 +6,6 @@ namespace MentorMate.Zoo.Business.Strategy
 {
     public interface IFoodStrategy
     {
-        IFood Strategy(AnimalStatistics animalStatistics, AnimalViewDTO animalViewDTO);
+        IFood CalculateAnimalFood(AnimalStatistics animalStatistics, AnimalViewDTO animalViewDTO);
     }
 }
