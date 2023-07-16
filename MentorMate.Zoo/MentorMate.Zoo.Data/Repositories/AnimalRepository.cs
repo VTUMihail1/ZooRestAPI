@@ -16,8 +16,11 @@ namespace MentorMate.Zoo.Data.Repositories
 
         public async Task<IEnumerable<IEnumerable<Animal>>> GetAllGroupedAndSortedAnimalsAsync()
         {
-            // In other cases the group by would be unnesecary,
-            // but in this case I can use the group by to have a empty array to seperate the carnivores and herbivores if there isnt a omnivore
+            // I don't really understand the B2 task with the birds and the reptiles.
+            // I would like to get some more information so I can implement the task and the tests.
+            // In other cases, the 'group by' would be unnecessary, but in this case,
+            // I can use the GroupBy to have an empty array to separate the carnivores and herbivores if there isn't an omnivore.
+
             var animalsDictionary = await _applicationDbContext.Animals
                 .AsNoTracking()
                 .GroupBy(a => a.Type)
